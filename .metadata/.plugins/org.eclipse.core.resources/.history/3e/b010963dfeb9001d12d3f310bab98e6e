@@ -1,0 +1,146 @@
+package dbutil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import model.Sach;
+
+public class SachDbUtil {
+	
+	private DataSource dataSource;
+	
+	public SachDbUtil(DataSource theDataSource) {
+		dataSource = theDataSource;
+	}
+	
+	private void close(Connection con, Statement stmt, ResultSet rss) {
+		try {
+			if(rss!=null) {
+				rss.close();
+			}
+			if(stmt!=null) {
+				stmt.close();
+			}
+			if(con!=null) {
+				con.close();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Sach> getSachs() {
+		List<Sach> sachs = new ArrayList<>();
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rss = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "select * from sach";
+			stmt = con.createStatement();
+			rss = stmt.executeQuery(sql);
+			
+			while (rss.next()) {
+				int ma = rss.getInt("masach");
+				String ten = rss.getString("tensach");
+				String nsx = rss.getString("nsx");
+				float gia = rss.getFloat("dongia");
+				Sach s = new Sach(ma, ten , nsx, gia);
+				sachs.add(s);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(con, stmt, rss);
+		}
+		return sachs;
+	}
+	
+	public void addSach(Sach s) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "insert into sach (masach, tensach, nsx, dongia) values (?, ?, ?, ?)";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, s.getMa());
+			stmt.setString(2, s.getTen());
+			stmt.setString(3, s.getNsx());
+			stmt.setFloat(4, s.getGia());
+			stmt.execute();
+		} finally {
+			close(con, stmt, null);
+		}
+	}
+	
+	public void updateSach(Sach s) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "update sach set tensach=?, nsx=?, dongia=? where masach=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, s.getTen());
+			stmt.setString(2, s.getNsx());
+			stmt.setFloat(3, s.getGia());
+			stmt.setInt(4, s.getMa());
+			stmt.execute();
+		} finally {
+			close(con, stmt, null);
+		}
+	}
+	
+	public void deleteSach(int id) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "delete from sach where masach=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id);
+			stmt.execute();
+		} finally {
+			close(con, stmt, null);
+		}
+	}
+	
+	public Sach getSach(int id) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rss = null;
+		Sach sach = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "select * from sach where masach=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id);
+			rss = stmt.executeQuery();
+			if(rss.next()) {
+				String ten = rss.getString("tensach");
+				String nsx = rss.getString("nsx");
+				float gia = rss.getFloat("dongia");
+				sach = new Sach(id, ten, nsx, gia);
+			} else {
+				throw new Exception("Khong tim thay sach co ma" +id);
+			}
+			return sach;
+		} finally {
+			close(con, stmt, null);
+		}
+	}
+
+}

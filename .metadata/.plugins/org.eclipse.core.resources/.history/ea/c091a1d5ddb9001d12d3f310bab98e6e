@@ -1,0 +1,8 @@
+<Context>
+	<Resource name="connect01"
+		auth="Container" type="javax.sql.DataSource"
+		maxActive="5" maxIdle="2" maxWait="1000"
+		username="sa" password="SAPassword-1"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		url="jdbc:sqlserver://localhost:1433/th01db" />
+</Context>

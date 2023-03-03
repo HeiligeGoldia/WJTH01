@@ -1,0 +1,16 @@
+package servlet;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+public class TestServlet {
+	
+	@Resource(name="connect01")
+	private DataSource dataSource;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+}

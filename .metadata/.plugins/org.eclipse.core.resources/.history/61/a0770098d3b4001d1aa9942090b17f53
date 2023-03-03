@@ -1,0 +1,10 @@
+package servlet;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+public class TestServlet {
+	
+	@Resource(name="connect01")
+	private DataSource dataSource;
+
+}

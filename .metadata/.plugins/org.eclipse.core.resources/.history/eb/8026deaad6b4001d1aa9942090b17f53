@@ -1,0 +1,10 @@
+package model;
+
+public class Sach {
+	
+	private int ma;
+	private String ten;
+	private String nsx;
+	private float gia;
+
+}

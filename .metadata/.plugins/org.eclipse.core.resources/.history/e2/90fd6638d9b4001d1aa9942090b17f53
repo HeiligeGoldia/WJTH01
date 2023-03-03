@@ -1,0 +1,41 @@
+package dbutil;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import model.Sach;
+
+public class SachDbUtil {
+	
+	private DataSource dataSource;
+	
+	public SachDbUtil(DataSource theDataSource) {
+		dataSource = theDataSource;
+	}
+	
+	public List<Sach> getSachs() {
+		List<Sach> sachs = new ArrayList<>();
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rss = null;
+		
+		try {
+			con = dataSource.getConnection();
+			String sql = "select * from sach";
+			stmt = con.createStatement();
+			rss = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

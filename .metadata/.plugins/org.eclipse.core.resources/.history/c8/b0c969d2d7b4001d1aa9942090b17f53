@@ -1,0 +1,13 @@
+package dbutil;
+
+import javax.sql.DataSource;
+
+public class SachDbUtil {
+	
+	private DataSource dataSource;
+	
+	public SachDbUtil(DataSource theDataSource) {
+		dataSource = theDataSource;
+	}
+
+}

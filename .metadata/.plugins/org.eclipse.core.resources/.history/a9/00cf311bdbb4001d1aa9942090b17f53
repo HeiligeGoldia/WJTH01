@@ -1,0 +1,28 @@
+package controller;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.sql.DataSource;
+
+import dbutil.SachDbUtil;
+
+@WebServlet("/SachController")
+public class SachController extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private SachDbUtil dbutil;
+	
+	@Resource(name="connect01")
+	private DataSource dataSource;
+	
+	public void init() throws ServletException {
+		super.init();
+	}
+
+}

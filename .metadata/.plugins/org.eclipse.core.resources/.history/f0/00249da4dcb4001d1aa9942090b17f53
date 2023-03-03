@@ -1,0 +1,55 @@
+package controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import dbutil.SachDbUtil;
+import model.Sach;
+
+@WebServlet("/SachController")
+public class SachController extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private SachDbUtil dbutil;
+	
+	@Resource(name="connect01")
+	private DataSource dataSource;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		dbutil = new SachDbUtil(dataSource);
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		String cmd = request.getParameter("command");
+		if(cmd==null) {
+			cmd="LIST";
+		}
+		switch(cmd) {
+			case "LIST":
+				list(request, response);
+		}
+	}
+	
+	private void list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Sach> sachs = dbutil.getSachs();
+		request.setAttribute("Sach_List", sachs);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/list-sach.jsp");
+		dispatcher.forward(request, response);
+	}
+
+}

@@ -1,0 +1,6 @@
+<Context>
+	<Resource name="connect01"
+		auth="Container" type="javax.sql.DataSource"
+		maxActive="5" maxIdle="2" maxWait="1000"
+		username="sa" password />
+</Context>

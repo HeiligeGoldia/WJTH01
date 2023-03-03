@@ -1,0 +1,38 @@
+package servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+public class TestServlet {
+	
+	@Resource(name="connect01")
+	private DataSource dataSource;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			PrintWriter out = response.getWriter();
+			response.setContentType("text/plain");
+			
+			Connection con = null;
+			Statement stmt = null;
+			ResultSet rss = null;
+			
+			while(rss.next()) {
+				String ten = rss.getString("tensach");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
